@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rohnewnotes/constants/routes.dart';
+import 'package:rohnewnotes/utilities/show_error_dialog.dart';
 
 import '../firebase_options.dart';
-import 'dart:developer' as devtools show log;
+// import 'dart:developer' as devtools show log;
 
 
 class RegisterView extends StatefulWidget {
@@ -64,26 +65,34 @@ class _RegisterViewState extends State<RegisterView> {
               final password = _password.text;
 
               try {
-                final userCredential =
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                devtools.log(userCredential.toString());
+                final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
+                // devtools.log(userCredential.toString());
               } on FirebaseAuthException catch(e) {
                 if(e.code == 'weak-password') {
-                  devtools.log('Weak Password');
+                  await showErrorDialog(context, 'Weak password');
+                  // devtools.log('Weak Password');
                 } else if(e.code == 'email-already-in-use') {
-                  devtools.log('Email is already in use');
+                  await showErrorDialog(context, 'Email is already registered');
+                  // devtools.log('Email is already in use');
                 } else if(e.code == 'invalid-email') {
-                  devtools.log('Invalid Email');
+                  await showErrorDialog(context, 'Invalid email');
+                  // devtools.log('Invalid Email');
                 }
                 else {
-                  devtools.log('Whats wrong');
-                  devtools.log(e.code);
-                  devtools.log(e.runtimeType.toString());
-                  devtools.log(e.message.toString());
+                  await showErrorDialog(context, 'Error ${e.code}');
+                  // devtools.log('Whats wrong');
+                  // devtools.log(e.code);
+                  // devtools.log(e.runtimeType.toString());
+                  // devtools.log(e.message.toString());
                 }
+              } catch (e) {
+                await showErrorDialog(context, e.toString());
               }
             },
             child: const Text('Register'),
