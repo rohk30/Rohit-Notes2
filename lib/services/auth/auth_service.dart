@@ -1,21 +1,37 @@
-// import 'package:';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'auth_user.dart';
+import 'package:rohnewnotes/services/auth/auth_user.dart';
+import 'auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;
   const AuthService(this.provider);
 
   @override
-  // TODO: implement providerId
-  String get providerId => throw UnimplementedError();
+  Future<AuthUser?> createUser({
+    required String email,
+    required String password,
+  }) =>
+      provider.createUser(
+        email: email,
+        password: password,
+      );
 
   @override
-  // Future<AuthUser> createUser({
-  //       required String email,
-  //       required String password,
-      // }) => provider.createUser(email: email, password: password,);
+  AuthProvider get currentUser => provider.currentUser!;
+
+  @override
+  Future<AuthUser?> logIn({
+    required String email,
+    required String password,
+  }) =>
+      provider.logIn(
+        email: email,
+        password: password,
+      );
+
+  @override
+  Future<void> logOut() => provider.logOut();
+
+  @override
+  Future<void> sendEmailVerification() => provider.sendEmailVerification();
 
 }
