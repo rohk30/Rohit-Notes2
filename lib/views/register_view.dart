@@ -86,10 +86,6 @@ class _RegisterViewState extends State<RegisterView> {
                 }
                 else {
                   await showErrorDialog(context, 'Error ${e.code}');
-                  // devtools.log('Whats wrong');
-                  // devtools.log(e.code);
-                  // devtools.log(e.runtimeType.toString());
-                  // devtools.log(e.message.toString());
                 }
               } catch (e) {
                 await showErrorDialog(context, e.toString());
