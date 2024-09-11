@@ -1,7 +1,15 @@
+import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+
+import '../../firebase_options.dart';
 import 'auth_user.dart';
 
 abstract class AuthProvider {
-  AuthProvider? get currentUser;
+
+  Future<void> initialize();
+
+  AuthUser? get currentUser;
+
   Future<AuthUser?> logIn({
     required String email,
     required String password,
@@ -13,5 +21,6 @@ abstract class AuthProvider {
   });
 
   Future<void> logOut();
+
   Future<void> sendEmailVerification();
 }
