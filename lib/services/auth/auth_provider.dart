@@ -1,8 +1,8 @@
-import 'dart:async';
+// import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../../firebase_options.dart';
-import 'auth_user.dart';
+import 'package:rohnewnotes/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
 
@@ -10,12 +10,12 @@ abstract class AuthProvider {
 
   AuthUser? get currentUser;
 
-  Future<AuthUser?> logIn({
+  Future<AuthUser> logIn({
     required String email,
     required String password,
   });
 
-  Future<AuthUser?> createUser({
+  Future<AuthUser> createUser({
     required String email,
     required String password,
   });
