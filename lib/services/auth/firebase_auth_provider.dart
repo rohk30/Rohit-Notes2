@@ -44,6 +44,7 @@ class FirebaseAuthProvider implements u_ap.AuthProvider {
   @override
   AuthUser? get currentUser {
     final user = FirebaseAuth.instance.currentUser;
+    print("Current Firebase user: $user"); // Add this line
     if(user!=null) {
       return AuthUser.fromFirebase(user);
     } else {
