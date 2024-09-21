@@ -4,7 +4,6 @@ import 'package:rohnewnotes/services/auth/auth_user.dart';
 import 'package:rohnewnotes/services/auth/auth_provider.dart' as u_ap;
 import 'package:rohnewnotes/services/auth/auth_exceptions.dart';
 
-
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
 // AuthProvider, FirebaseAuth,

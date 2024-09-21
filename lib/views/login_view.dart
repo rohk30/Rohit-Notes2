@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rohnewnotes/constants/routes.dart';
-import 'package:rohnewnotes/services/auth/auth_service.dart';
+import 'package:rohnewnotes/services/auth//auth_service.dart';
 import 'package:rohnewnotes/services/auth/auth_user.dart';
 import '../services/auth/auth_exceptions.dart';
 import '../utilities/show_error_dialog.dart';
