@@ -16,9 +16,6 @@ void main() {
       theme: ThemeData(
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         primarySwatch: Colors.blue,
-        // backgroundColor: Colors.blue, // Set AppBar background color
-        // foregroundColor: Colors.white,
-        // useMaterial3: true,
       ),
       home: const HomePage(),
       routes: {
@@ -51,7 +48,6 @@ class HomePage extends StatelessWidget {
               } else {
                 return const LoginView();
               }
-
             default:
               return const CircularProgressIndicator();
           }

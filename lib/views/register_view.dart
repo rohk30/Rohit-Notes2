@@ -62,14 +62,12 @@ class _RegisterViewState extends State<RegisterView> {
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
-
               try {
                 await AuthService.firebase().createUser(
                     email: email,
                     password: password
                 );
                 AuthService.firebase().sendEmailVerification();
-
                 Navigator.of(context).pushNamed(verifyEmailRoute);
               } on WeakPasswordAuthException {
                 await showErrorDialog(context, 'Weak password');
@@ -93,7 +91,7 @@ class _RegisterViewState extends State<RegisterView> {
               child: const Text('Already registered? Login instead')
           )
         ],
-            ),
+        ),
       );
   }
 }

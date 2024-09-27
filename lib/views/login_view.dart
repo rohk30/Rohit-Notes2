@@ -60,26 +60,40 @@ class _LoginViewState extends State<LoginView> {
             onPressed: () async {
               final email = _email.text;
               final password = _password.text;
-
               try {
                 AuthService.firebase().logIn(
                     email: email,
                     password: password
                 );
                 final user = AuthService.firebase().currentUser;
-                // await AuthService.firebase().currentUser?.reload();
-                // final user = AuthService.firebase().currentUser;
-                if(user!=null && (user.isEmailVerified ?? false)) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    notesRoute,
-                        (route) => false,
-                  );
-                } else {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    verifyEmailRoute,
-                        (route) => false,
-                  );
+                if(user!=null) {
+                  if(user.isEmailVerified) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                            notesRoute,
+                            (route) => false,
+                    );
+                  } else {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      verifyEmailRoute,
+                      (route) => false,
+                    );
+                  }
                 }
+                // else {
+                //   await showErrorDialog(context, 'User not found',);
+                // }
+
+                // if(user!=null && (user.isEmailVerified ?? false)) {
+                //   Navigator.of(context).pushNamedAndRemoveUntil(
+                //     notesRoute,
+                //         (route) => false,
+                //   );
+                // } else {
+                //   Navigator.of(context).pushNamedAndRemoveUntil(
+                //     verifyEmailRoute,
+                //         (route) => false,
+                //   );
+                // }
               } on UserNotFoundAuthException {
                 await showErrorDialog(context, 'User not found',);
               } on WrongPasswordAuthException {
