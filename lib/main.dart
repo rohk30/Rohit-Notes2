@@ -3,7 +3,8 @@ import 'package:rohnewnotes/constants/routes.dart';
 import 'package:rohnewnotes/services/auth/auth_service.dart';
 import 'package:rohnewnotes/services/auth/auth_user.dart';
 import 'package:rohnewnotes/views/login_view.dart';
-import 'package:rohnewnotes/views/notes_view.dart';
+import 'package:rohnewnotes/views/notes/notes_view.dart';
+import 'package:rohnewnotes/views/notes/new_note_view.dart';
 import 'package:rohnewnotes/views/register_view.dart';
 import 'package:rohnewnotes/views/verify_email_view.dart';
 import 'dart:developer' as devtools show log;
@@ -23,6 +24,7 @@ void main() {
         registerRoute: (context) => const RegisterView(),
         notesRoute: (context) => const NotesView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
+        newNoteRoute: (context) => const NewNoteView(),
       },
     ),
   );
