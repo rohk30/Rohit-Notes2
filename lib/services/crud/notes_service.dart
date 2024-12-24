@@ -105,7 +105,7 @@ class NotesService {
     return noOfDeletions;
   }
 
-  Future<void> deleteNote({required DatabaseUser owner, required int id}) async {
+  Future<void> deleteNote({required int id}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
