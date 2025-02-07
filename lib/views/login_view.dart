@@ -3,7 +3,8 @@ import 'package:rohnewnotes/constants/routes.dart';
 import 'package:rohnewnotes/services/auth//auth_service.dart';
 import 'package:rohnewnotes/services/auth/auth_user.dart';
 import '../services/auth/auth_exceptions.dart';
-import '../utilities/show_error_dialog.dart';
+import '../utilities/dialogs/error_dialog.dart';
+// import '../utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -67,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                 );
                 final user = AuthService.firebase().currentUser;
                 if(user!=null) {
-                  if(user.isEmailVerified) {
+                  if(user.isEmailVerified ?? false) {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                             notesRoute,
                             (route) => false,

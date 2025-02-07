@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rohnewnotes/services/auth/auth_service.dart';
 import 'package:rohnewnotes/services/crud/notes_service.dart';
+import 'package:rohnewnotes/views/notes/notes_list_view.dart';
 
 import '../../constants/routes.dart';
 import '../../enums/menu_actions.dart';
+import '../../utilities/dialogs/logout_dialog.dart' show showLogOutDialog;
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -68,20 +70,30 @@ class _NotesViewState extends State<NotesView> {
       body: FutureBuilder(
         future: _notesService.getOrCreateUser(email: userEmail),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState) {
+          switch (snapshot.connectionState) {
             case ConnectionState.done:
               return StreamBuilder(
                 stream: _notesService.allNotes,
                 builder: (context, snapshot) {
-                  switch(snapshot.connectionState) {
+                  switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.active:
-                      return const Text('Waiting for all notes');
-                      break;
+                      if (snapshot.hasData) {
+                        final allNotes = snapshot.data as List<DatabaseNote>;
+                        return NotesListView(
+                          notes: allNotes,
+                          onDeleteNote: (note) async {
+                            await _notesService.deleteNote(id: note.id);
+                          },
+                        );
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
                     default:
                       return const CircularProgressIndicator();
                   }
-                });
+                },
+              );
             default:
               return const CircularProgressIndicator();
           }
@@ -91,25 +103,3 @@ class _NotesViewState extends State<NotesView> {
   }
 }
 
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Sign Out'),
-          content: const Text('Are you sure you want to sign out?'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: const Text('Cancel')),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: const Text('Log Out'))
-          ],
-        );
-      }).then((value) => value ?? false);
-}
