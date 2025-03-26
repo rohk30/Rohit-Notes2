@@ -33,7 +33,7 @@ class _NotesViewState extends State<NotesView> {
         title: const Text('Your notes'),
         actions: [
           IconButton(onPressed: () {
-            Navigator.of(context).pushNamed(newNoteRoute);
+            Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
           }, icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -78,25 +78,14 @@ class _NotesViewState extends State<NotesView> {
                             notes: allNotes,
                             onDeleteNote: (note) async {
                               await _notesService.deleteNote(id: note.id);
-                            }
+                            },
+                            onTap: (note) {
+                              Navigator.of(context).pushNamed(
+                                createOrUpdateNoteRoute,
+                                arguments: note
+                              );
+                            },
                         );
-
-
-                        // // print(allNotes);
-                        // return ListView.builder(
-                        //   itemCount: allNotes.length,
-                        //   itemBuilder: (context, index) {
-                        //     final note = allNotes[index];
-                        //     return ListTile(
-                        //       title: Text(
-                        //         note.text,
-                        //         maxLines: 1,
-                        //         softWrap: true,
-                        //         overflow: TextOverflow.ellipsis,
-                        //       ),
-                        //     );
-                        //   },
-                        // );
                       } else {
                         return const CircularProgressIndicator();
                       }
