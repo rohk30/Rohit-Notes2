@@ -21,7 +21,7 @@ class NotesService {
         _notesStreamController.sink.add(_notes);
       },
     );
-  };
+  }
   factory NotesService() => _shared;
 
   late final StreamController<List<DatabaseNote>> _notesStreamController;
