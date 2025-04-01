@@ -19,7 +19,18 @@ class NotesView extends StatefulWidget {
 class _NotesViewState extends State<NotesView> {
 
   late final FirebaseCloudStorage _notesService;
-  String get userId => AuthService.firebase().currentUser!.id;
+  // String get userId => AuthService.firebase().currentUser!.id;
+  String get userId {
+    final user = AuthService.firebase().currentUser;
+    if (user == null) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        loginRoute,
+            (route) => false,
+      );
+      return '';
+    }
+    return user.id;
+  }
 
   @override
   void initState() {
