@@ -68,6 +68,12 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createdState() => _HomePageState();
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
 }
 
 class _HomePageState extends State<HomePage>{
@@ -87,7 +93,7 @@ class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext) {
     return BlocProvider(
-        create: (context) => CounterBlock,
+      create: (context) => CounterBloc(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Testing bloc'),
@@ -135,7 +141,6 @@ class _HomePageState extends State<HomePage>{
           },
         ),
       )
-
     );
   }
 }
@@ -186,7 +191,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
         );
       } else {
         emit(
-          CounterStateValid(state.value + integer);
+          CounterStateValid(state.value + integer),
         );
       }
     });
@@ -202,7 +207,7 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
         );
       } else {
         emit(
-            CounterStateValid(state.value - integer);
+            CounterStateValid(state.value - integer),
         );
       }
     });
