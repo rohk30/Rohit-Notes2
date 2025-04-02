@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     //Log in
     on<AuthEventLogIn>((event, emit) async {
-      emit(AuthStateLoading());
       final email = event.email;
       final password = event.password;
       try {
@@ -39,9 +38,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //Log Out
     on<AuthEventLogOut>((event, emit) async {
       try {
-        emit(AuthStateLoading());
+        emit(const AuthStateLoading());
         await provider.logOut();
-        emit(AuthStateLoggedOut());
+        emit(const AuthStateLoggedOut(null));
       } on Exception catch(e) {
         emit(AuthStateLogOutFailure(e));
       }

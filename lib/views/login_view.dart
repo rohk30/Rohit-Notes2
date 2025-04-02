@@ -5,6 +5,7 @@ import 'package:rohnewnotes/services/auth//auth_service.dart';
 import 'package:rohnewnotes/services/auth/auth_user.dart';
 import 'package:rohnewnotes/services/auth/bloc/auth_bloc.dart';
 import 'package:rohnewnotes/services/auth/bloc/auth_events.dart';
+import 'package:rohnewnotes/services/auth/bloc/auth_state.dart';
 import '../services/auth/auth_exceptions.dart';
 import '../utilities/dialogs/error_dialog.dart';
 // import '../utilities/show_error_dialog.dart';
@@ -50,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             decoration:
-                const InputDecoration(hintText: 'Enter your email here'),
+            const InputDecoration(hintText: 'Enter your email here'),
           ),
           TextField(
             controller: _password,
@@ -58,52 +59,39 @@ class _LoginViewState extends State<LoginView> {
             enableSuggestions: false,
             autocorrect: false,
             decoration:
-                const InputDecoration(hintText: 'Enter your password here'),
+            const InputDecoration(hintText: 'Enter your password here'),
           ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                context.read<AuthBloc>().add(
-                  AuthEventLogIn(email, password)
-                );
-
-                /*await AuthService.firebase().logIn(
-                    email: email,
-                    password: password
-                );
-                final user = AuthService.firebase().currentUser;
-                  if(user?.isEmailVerified ?? false) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                            notesRoute,
-                            (route) => false,
-                    );
-                  } else {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailRoute,
-                      (route) => false,
-                    );
-                  } */
-
-              } on UserNotFoundAuthException {
-                await showErrorDialog(context, 'User not found',);
-              } on WrongPasswordAuthException {
-                await showErrorDialog(context, 'Wrong Password',);
-              } on GenericAuthException {
-                await showErrorDialog(context, 'Authentication Error',);
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state is AuthStateLoggedOut) {
+                if (state.exception is UserNotFoundAuthException) {
+                  await showErrorDialog(context, "User Not Found");
+                } else if (state.exception is WrongPasswordAuthException) {
+                  await showErrorDialog(context, "Wrong Credentials");
+                } else if (state.exception is GenericAuthException) {
+                  await showErrorDialog(context, "Authentication Error");
+                }
               }
             },
-            child: const Text('Login'),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  registerRoute,
-                  (route) => false,
+            child: TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                context.read<AuthBloc>().add(
+                    AuthEventLogIn(email, password)
                 );
               },
-              child: const Text('Not registered yet? Register here!!'))
+              child: const Text('Login'),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                registerRoute,
+                    (route) => false,
+              );
+            },
+            child: const Text('Not registered yet? Register here!!'))
         ],
       ),
     );
