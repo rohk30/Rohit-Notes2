@@ -11,7 +11,9 @@ import 'package:rohnewnotes/views/notes/create_update_note_view.dart';
 import 'package:rohnewnotes/views/register_view.dart';
 import 'package:rohnewnotes/views/verify_email_view.dart';
 
-void main() {
+import 'helpers/loading/loading_screen.dart';
+
+/*void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
@@ -30,9 +32,70 @@ void main() {
       },
     ),
   );
+} */
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MaterialApp(
+      // supportedLocales: AppLocalizations.supportedLocales,
+      // localizationsDelegates: AppLocalizations.localizationsDelegates,
+      title: 'Flutter Demo',
+      // debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(FirebaseAuthProvider()),
+        child: const HomePage(),
+      ),
+      routes: {
+        createOrUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
+      },
+    ),
+  );
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    context.read<AuthBloc>().add(const AuthEventInitialize());
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoading) {
+          LoadingScreen().show(
+            context: context,
+            text: state.loadingText ?? 'Please wait a moment',
+          );
+        } else {
+          LoadingScreen().hide();
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthStateLoggedIn) {
+          return const NotesView();
+        } else if (state is AuthStateNeedsVerification) {
+          return const VerifyEmailView();
+        } else if (state is AuthStateLoggedOut) {
+          return const LoginView();
+        } /*else if (state is AuthStateForgotPassword) {
+          return const ForgotPasswordView();
+        } */ else if (state is AuthStateRegistering) {
+          return const RegisterView();
+        } else {
+          return const Scaffold(
+            body: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
+
+/*class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
@@ -55,24 +118,5 @@ class HomePage extends StatelessWidget {
     });
 
 
-    return FutureBuilder(
-        future: AuthService.firebase().initialize(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = AuthService.firebase().currentUser;
-              if (user != null) {
-                if (user.isEmailVerified) {
-                  return const NotesView();
-                } else {
-                  return const VerifyEmailView();
-                }
-              } else {
-                return const LoginView();
-              }
-            default:
-              return const CircularProgressIndicator();
-          }
-        });
   }
-}
+}   */
