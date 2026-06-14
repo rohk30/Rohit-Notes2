@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rohnewnotes/services/auth/auth_service.dart';
 import 'package:rohnewnotes/services/auth/bloc/auth_events.dart';
 import 'package:rohnewnotes/services/cloud/cloud_note.dart';
 import 'package:rohnewnotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:rohnewnotes/utilities/generics/get_arguments.dart';
-import 'package:rohnewnotes/views/notes/notes_list_view.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../constants/routes.dart';
-import '../../enums/menu_actions.dart';
-import '../../services/auth/bloc/auth_bloc.dart';
-import '../../utilities/dialogs/logout_dialog.dart' show showLogOutDialog;
-
 class CreateUpdateNoteView extends StatefulWidget {
-  const CreateUpdateNoteView({super.key});
+  final CloudNote? initialNote;
+  const CreateUpdateNoteView({super.key, this.initialNote});
 
   @override
   State<CreateUpdateNoteView> createState() => _CreateUpdateNoteViewState();
@@ -50,7 +47,8 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   }
 
   Future<CloudNote> createOrGetExistingNote(BuildContext context) async {
-    final widgetNote = context.getArgument<CloudNote>();
+    // Priority: constructor param > route argument > create new
+    final widgetNote = widget.initialNote ?? context.getArgument<CloudNote>();
 
     if (widgetNote != null) {
       _note = widgetNote;
@@ -100,8 +98,16 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     final lines = text.split('\n');
     final title = lines.isNotEmpty ? lines.first : '';
     final body = lines.length > 1 ? lines.sublist(1).join('\n') : '';
+    final shareText = '*$title*\n$body';
 
-    Share.share('*$title*\n$body'); // Markdown bolding for supported apps
+    if (kIsWeb) {
+      Clipboard.setData(ClipboardData(text: shareText));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Note copied to clipboard!')),
+      );
+    } else {
+      Share.share(shareText);
+    }
   }
 
   @override
@@ -122,7 +128,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
             _setupTextControllerListener();
             return Scaffold(
               appBar: AppBar(
-                title: const Text('New Note'),
+                title: const Text('Note'),
                 backgroundColor: Colors.lightBlue,
                 centerTitle: true,
                 actions: [

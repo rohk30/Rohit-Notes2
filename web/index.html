@@ -18,19 +18,44 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Rohit Notes — a cloud-synchronized note-taking app.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="rohnewnotes">
+  <meta name="apple-mobile-web-app-title" content="Rohit Notes">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>rohnewnotes</title>
+  <title>Rohit Notes</title>
   <link rel="manifest" href="manifest.json">
+  <!-- Firebase JS SDKs (required for Flutter web Firebase support).
+       Replace appId/measurementId placeholders in the script below with
+       values from your Firebase console or run the FlutterFire CLI. -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics-compat.js"></script>
+  <script>
+    // Basic Firebase web initialization. Update values if you have
+    // the exact web config from the Firebase console.
+    const firebaseConfig = {
+      apiKey: "AIzaSyBBRknT6eGr4qqQ42SfQyB-xVdZ3IhRwKk",
+      authDomain: "renewedvigour-mynotes.firebaseapp.com",
+      projectId: "renewedvigour-mynotes",
+      storageBucket: "renewedvigour-mynotes.appspot.com",
+      messagingSenderId: "532749228928",
+      appId: "1:532749228928:web:REPLACE_ME",
+      measurementId: "G-REPLACE_ME"
+    };
+    // Initialize Firebase (if not already initialized by Dart).
+    if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+      try { firebase.analytics(); } catch (e) { /* analytics optional */ }
+    }
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>

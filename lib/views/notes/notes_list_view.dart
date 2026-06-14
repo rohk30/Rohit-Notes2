@@ -11,12 +11,14 @@ class NotesListView extends StatelessWidget {
   final Iterable<CloudNote> notes;
   final NoteCallback onDeleteNote;
   final NoteCallback onTap;
+  final CloudNote? selectedNote;
 
   const NotesListView({
     super.key,
     required this.notes,
     required this.onDeleteNote,
     required this.onTap,
+    this.selectedNote,
   });
 
   @override
@@ -31,14 +33,18 @@ class NotesListView extends StatelessWidget {
         final preview = noteLines.length > 1
             ? noteLines.sublist(1).join(' ').trim().split(' ').take(15).join(' ') + '...'
             : '';
+        final isSelected = selectedNote?.documentId == note.documentId;
 
         return GestureDetector(
           onTap: () => onTap(note),
           child: Card(
-            elevation: 8,
+            elevation: isSelected ? 12 : 8,
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
+              side: isSelected
+                  ? const BorderSide(color: Colors.blue, width: 2)
+                  : BorderSide.none,
             ),
             color: Colors.white,
             child: Container(

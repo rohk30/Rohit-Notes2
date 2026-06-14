@@ -1,12 +1,12 @@
 {
-    "name": "rohnewnotes",
-    "short_name": "rohnewnotes",
+    "name": "Rohit Notes",
+    "short_name": "Rohit Notes",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "description": "A cloud-synchronized note-taking app.",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {

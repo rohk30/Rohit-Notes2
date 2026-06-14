@@ -2,9 +2,12 @@
 
 > A modern, cloud-synchronized note-taking application built with Flutter and Firebase. Create, manage, and share your notes seamlessly across devices with real-time synchronization.
 
+🌐 **Live Web App:** [rohit-notes.web.app](https://rohit-notes.web.app)
+
 
 ## 📋 Table of Contents
 
+- [🌐 Live Demo](#-live-demo)
 - [✨ Features](#-features)
 - [🚀 Getting Started](#-getting-started)
 - [📱 Usage Guide](#-usage-guide)
@@ -15,7 +18,23 @@
 
 ---
 
+## 🌐 Live Demo
+
+| Platform | URL |
+|----------|-----|
+| 🌐 **Web App** | [https://rohit-notes.web.app](https://rohit-notes.web.app) |
+| 🌐 **Alternate URL** | [https://rohit-notes.firebaseapp.com](https://rohit-notes.firebaseapp.com) |
+
+> Works on any browser — desktop, tablet, or mobile. No installation required.
+
+---
+
 ## ✨ Features
+
+### 💻 **Web App**
+- 🌐 **Instant Access** — Use directly at [rohit-notes.web.app](https://rohit-notes.web.app), no install needed
+- 🖥️ **Two-Pane Layout** — Note list on the left, editor on the right on wide screens
+- 📋 **Clipboard Copy** — Share button copies note to clipboard on web
 
 ### 🔐 **Authentication & Security**
 - 📧 **Email/Password Registration** — Create a new account with email verification
@@ -215,7 +234,7 @@ The app uses the BLoC pattern for clean separation of concerns:
 | **Local Storage** | SharedPreferences | 2.3.3+ |
 | **Sharing** | share_plus | 10.1.4+ |
 | **Analytics** | Firebase Analytics | 11.2.0+ |
-| **Database (Local)** | sqflite | 2.3.3+ |
+| **Hosting** | Firebase Hosting | — |
 
 ---
 
@@ -385,6 +404,24 @@ service cloud.firestore {
    ```
    This generates `lib/firebase_options.dart` automatically.
 
+8. **Web-specific Firebase notes**
+    - The project includes a basic web Firebase setup but some fields are placeholders
+       (notably the web `appId` and `measurementId`) in `lib/firebase_options.dart` and
+       `web/index.html`.
+    - For a proper web deployment run `flutterfire configure` and select the web app
+       to regenerate accurate values, or edit the following files with values from
+       the Firebase console:
+       - `lib/firebase_options.dart`
+       - `web/index.html`
+    - To run locally in Chrome:
+       ```bash
+       flutter run -d chrome
+       ```
+    - To build a production web bundle:
+       ```bash
+       flutter build web --release
+       ```
+
 7. **Enable Analytics** (Optional)
    - Firebase Console → **Analytics**
    - Enable Google Analytics for your project
@@ -435,6 +472,17 @@ flutter test
 
 ### **Building & Deployment**
 
+#### **Web — Deploy to Firebase Hosting**
+```bash
+# One-command deploy (Windows)
+deploy.bat
+
+# Or manually
+flutter build web --release
+firebase deploy --only hosting:rohit-notes
+```
+Live at: [https://rohit-notes.web.app](https://rohit-notes.web.app)
+
 #### **Android Build**
 ```bash
 flutter build apk --release
@@ -484,6 +532,8 @@ flutter build windows --release
 <div align="center">
 
 ### Made with ❤️ by Rohit
+
+🌐 **Try it live:** [rohit-notes.web.app](https://rohit-notes.web.app)
 
 ⭐ If you find this project helpful, please give it a star!
 

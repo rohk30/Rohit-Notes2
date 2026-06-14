@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rohnewnotes/constants/routes.dart';
+import 'package:rohnewnotes/firebase_options.dart';
 import 'package:rohnewnotes/services/auth/auth_service.dart';
 import 'package:rohnewnotes/services/auth/bloc/auth_bloc.dart';
 import 'package:rohnewnotes/services/auth/bloc/auth_events.dart';
@@ -15,11 +17,14 @@ import 'package:rohnewnotes/views/verify_email_view.dart';
 
 import 'helpers/loading/loading_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     MaterialApp(
-      title: 'My Notes',
+      title: 'Rohit Notes',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

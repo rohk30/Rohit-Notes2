@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:rohnewnotes/firebase_options.dart';
 import 'package:rohnewnotes/services/auth/auth_user.dart';
 import 'package:rohnewnotes/services/auth/auth_provider.dart' as u_ap;
 import 'package:rohnewnotes/services/auth/auth_exceptions.dart';
@@ -53,9 +51,8 @@ class FirebaseAuthProvider implements u_ap.AuthProvider {
 
   @override
   Future<void> initialize() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    // Firebase is initialized in main() before runApp.
+    // Nothing to do here.
   }
 
   @override

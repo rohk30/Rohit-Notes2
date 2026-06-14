@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "renewedvigour-mynotes"
+  },
+  "targets": {
+    "renewedvigour-mynotes": {
+      "hosting": {
+        "rohit-notes": [
+          "rohit-notes"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -41,3 +41,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase & secrets — never commit real keys
+lib/firebase_options.dart
+.env
+google-services.json
+GoogleService-Info.plist
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Firebase CLI cache
+.firebase/
+
+# Flutter web build output
+/build/
